@@ -7,7 +7,7 @@ Google los llama Deeplinks mientras que Apple prefiere llamarlos Universal Links
 
 **WebCredentials** permite vincular las credenciales de nuestra app con las de una plataforma web así el gestor de contraseñas que estemos usando nos facilita el inicio de sesión.
 
-
+---
 
 ## Implementar DeepLinks
 
@@ -22,7 +22,7 @@ Ejemplo: https://plataforma.coderhouse.com/.well-known/assetlinks.json
 
 
 El archivo tiene que tener la siguiente estructura:
-```
+```json
 [{
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
@@ -49,7 +49,7 @@ El proceso en iOS es muy similar al de Android, junto con el archivo `assetlinks
 Ejemplo: https://plataforma.coderhouse.com/.well-known/apple-app-site-association
 
 El archivo tiene que tener la siguiente estructura:
-```
+```json
 {
   "applinks": {
     "details": [
@@ -83,7 +83,7 @@ Ahora solo falta agregar el dominio en nuestra app en Flutter.
 
 Para Android tenemos que modificar el archivo `AndroidManifest.xml` y agregar las siguientes lineas:
 
-```
+```xml
 <!-- Deep linking -->
 <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
 <intent-filter android:autoVerify="true">
@@ -126,7 +126,7 @@ Ahora que tenemos el dominio asociado a nuestra app solo falta escribir el códi
 
 Una vez que instalamos la librería tenemos que agregar las siguientes lineas en `main.dart`
 
-```
+```dart
 /// Esta linea va a la altura del metodo main()
 /// Para saber si ya se leyó la url con la que se abrió la app si estaba killed
 bool _initialUriIsHandled = false;
@@ -196,12 +196,13 @@ class _MyAppState extends State<MyApp> {
 
 Según los requisitos de nuestra app debemos modificar los dos handlers para que parseen la url y la app reaccione a ella.
 
+---
 
 ## Implementar WebCredentials
 #### Android
 Primero tenemos que agregar una lineas extras en el archivo `assetlinks.json`
 
-```
+```json
 [{
   "relation": ["delegate_permission/common.get_login_creds"],
   "target": {
@@ -223,7 +224,7 @@ Agregamos un objeto al principio con la web que queremos vincular y en el array 
 
 Luego tenemos que agregar la siguiente linea en el `AndroidManifest.xml`
 
-```
+```xml
 <meta-data android:name="asset_statements" android:resource="@string/asset_statements"/>
 ```
 
@@ -231,7 +232,7 @@ Luego tenemos que agregar la siguiente linea en el `AndroidManifest.xml`
 
 Por ultimo hay que crear un archivo llamado `strings.xml` en la carpeta `/android/app/src/main/res/values` y agregarle las siguiente linea:
 
-```
+```xml
 <resources>
   <string name="asset_statements" translatable="false">
     [{
